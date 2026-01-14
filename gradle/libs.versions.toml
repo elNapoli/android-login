@@ -7,11 +7,13 @@ junitVersion = "1.3.0"
 espressoCore = "3.7.0"
 appcompat = "1.7.1"
 material = "1.13.0"
-napoli-base-develop = "1.0.0-development"
+napoli-base-development = "1.0.0-development"
+napoli-base-production = "1.0.0-production"
 navigationRuntimeKtx = "2.9.6"
 composeBom = "2024.12.01"
 navigationCompose = "2.9.6"
 koin = "3.5.6"
+timber = "5.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -21,9 +23,16 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
-napoli-android-base = { module = "com.baldomeronap.android:base", version.ref = "napoli-base-develop" }
+napoli-android-base-development = { module = "com.baldomeronap.android:base", version.ref = "napoli-base-development" }
+napoli-android-base-production = { module = "com.baldomeronap.android:base", version.ref = "napoli-base-production" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+
+# Koin
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+# Logging
+timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 # Compose
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
@@ -41,5 +50,7 @@ kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 
 [bundles]
-koin = ["koin-android"]
+koin = ["koin-android", "koin-androidx-compose"]
+napoli-development = ["napoli-android-base-development"]
+napoli-production = ["napoli-android-base-production"]
 

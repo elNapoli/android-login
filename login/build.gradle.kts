@@ -55,6 +55,15 @@ android {
         compose = true
     }
 
+    publishing {
+        singleVariant("development") {
+            withSourcesJar()
+        }
+        singleVariant("production") {
+            withSourcesJar()
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -95,8 +104,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.bundles.koin)
+    implementation(libs.timber)
 
-    "developmentImplementation"(libs.napoli.android.base)
+    "developmentImplementation"(libs.napoli.android.base.development)
+    "productionImplementation"(libs.napoli.android.base.production)
 }
 
 afterEvaluate {
@@ -107,12 +118,12 @@ afterEvaluate {
                 from(components["development"])
 
                 groupId = "com.baldomeronap.android"
-                artifactId = "base"
+                artifactId = "login"
                 version = "$libraryVersion-development"
 
                 pom {
                     name.set("Android Base")
-                    description.set("Napoli's Android Base - Development")
+                    description.set("Napoli's Android Login - Development")
                     url.set("https://github.com/tuusuario/android-base")
 
                     licenses {
@@ -136,12 +147,12 @@ afterEvaluate {
                 from(components["production"])
 
                 groupId = "com.baldomeronap.android"
-                artifactId = "base"
+                artifactId = "login"
                 version = "$libraryVersion-production"
 
                 pom {
-                    name.set("Android Base")
-                    description.set("Napoli's Android Base - Production")
+                    name.set("Android login")
+                    description.set("Napoli's Android Login - Production")
                     url.set("https://github.com/tuusuario/android-base")
 
                     licenses {

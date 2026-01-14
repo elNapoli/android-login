@@ -20,6 +20,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Napoli Android(Login"
+rootProject.name = "Napoli Android Login"
 include(":login")
  
