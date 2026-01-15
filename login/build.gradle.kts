@@ -27,9 +27,7 @@ fun getVersionName(): String {
 }
 android {
     namespace = "com.baldomeronapoli.android.login"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 24
@@ -51,26 +49,26 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-    }
-
-    publishing {
-        singleVariant("development") {
-            withSourcesJar()
-        }
-        singleVariant("production") {
-            withSourcesJar()
-        }
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlin {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+        }
+    }
+
+    // Configurar publicación solo para tus variantes
+    publishing {
+        singleVariant("development") {
+            withSourcesJar()
+            withJavadocJar()
+        }
+        singleVariant("production") {
+            withSourcesJar()
+            withJavadocJar()
         }
     }
 }
@@ -124,22 +122,6 @@ afterEvaluate {
                 pom {
                     name.set("Android Base")
                     description.set("Napoli's Android Login - Development")
-                    url.set("https://github.com/tuusuario/android-base")
-
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id.set("baldomeronapoli")
-                            name.set("Baldomero Napoli")
-                            email.set("tu@email.com")
-                        }
-                    }
                 }
             }
 
@@ -153,22 +135,6 @@ afterEvaluate {
                 pom {
                     name.set("Android login")
                     description.set("Napoli's Android Login - Production")
-                    url.set("https://github.com/tuusuario/android-base")
-
-                    licenses {
-                        license {
-                            name.set("The Apache License, Version 2.0")
-                            url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                        }
-                    }
-
-                    developers {
-                        developer {
-                            id.set("baldomeronapoli")
-                            name.set("Baldomero Napoli")
-                            email.set("tu@email.com")
-                        }
-                    }
                 }
             }
         }

@@ -17,13 +17,13 @@ class WelcomeViewModel(
         initialState = WelcomeContract.State.Idle
     ) {
 
-    fun clickTest() {
+    fun onStartClick() {
         sendAction(WelcomeContract.Action.ClickStart)
     }
 
     override fun processAction(
         action: WelcomeContract.Action,
-        sendEffect: suspend (WelcomeContract.Effect) -> Unit
+        sendEffect: (WelcomeContract.Effect) -> Unit
     ): Flow<Mutation<WelcomeContract.State>> {
         return when (action) {
             is WelcomeContract.Action.ClickStart -> loadWelcomeActionProcessor.process(

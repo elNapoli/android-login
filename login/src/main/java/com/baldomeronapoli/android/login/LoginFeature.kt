@@ -6,8 +6,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.baldomeronapoli.android.base.feature.LazyFeatureLoader
 import com.baldomeronapoli.android.base.feature.NavigationAwareFeature
 import com.baldomeronapoli.android.login.di.loginModule
+import com.baldomeronapoli.android.login.ui.screens.LoginRoute
 import org.koin.core.module.Module
 
 /**
@@ -17,30 +19,46 @@ import org.koin.core.module.Module
 class LoginFeature : NavigationAwareFeature {
 
     override val featureName: String = "login"
-    override val priority: Int = 10 // Alta prioridad (se inicializa temprano)
 
-    // Módulos de DI
+    /**
+     * Prioridad de carga:
+     * - <= 50: Crítico (se carga con getCriticalDependencyModules)
+     * - > 50: No crítico (se carga lazy con LazyFeatureLoader)
+     */
+    override val priority: Int = 100 // Lazy loading - se carga al navegar
+
+    // NavController - se inicializa en onNavigationReady
+    private var navController: NavHostController? = null
+
+    // Módulos de DI - se cargan automáticamente por LazyFeatureLoader
     override fun provideDependencies(): List<Module> = listOf(loginModule)
 
-    // Navegación
+    // Navegación con lazy loading
     override fun NavGraphBuilder.registerNavigation() {
         navigation(
             startDestination = "login_form",
             route = "login_flow"
         ) {
-            // TODO: Crear las pantallas Composable
             composable("login_form") {
-                Text("Login ")
+                LazyFeatureLoader(featureName = featureName) {
+                    LoginRoute(
+                        onNavigateToLogin = {
+                            navController?.navigate("login_otp")
+                        }
+                    )
+                }
             }
 
+            // Las demás rutas NO usan LazyFeatureLoader
+            // Los módulos ya están cargados desde login_form
             composable("login_otp") {
-                Text("login_otp ")
-
+                // TODO: Reemplazar con tu LoginOtpScreen real
+                Text("Login OTP")
             }
 
             composable("login_success") {
-                Text("login_success ")
-
+                // TODO: Reemplazar con tu LoginSuccessScreen real
+                Text("Login Success")
             }
         }
     }
@@ -53,6 +71,7 @@ class LoginFeature : NavigationAwareFeature {
 
     // NavController listo
     override fun onNavigationReady(navController: NavHostController) {
+        this.navController = navController
         // TODO: Crear DeepLinkHandler
         // Escuchar eventos de deep links para login
         // DeepLinkHandler.setupLoginDeepLinks(navController)
