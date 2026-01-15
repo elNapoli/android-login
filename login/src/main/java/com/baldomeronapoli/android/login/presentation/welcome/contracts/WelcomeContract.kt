@@ -14,6 +14,7 @@ object WelcomeContract {
     }
 
     sealed class Effect : ViewEffect() {
-        data object NavigateToLogin : Effect()
+        // ✅ Actualizado: ahora pasa el teléfono
+        data class NavigateToOtp(val phone: String) : Effect()
     }
 }

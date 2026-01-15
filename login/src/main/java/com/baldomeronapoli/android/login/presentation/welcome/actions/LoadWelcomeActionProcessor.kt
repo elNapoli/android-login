@@ -16,7 +16,7 @@ class LoadWelcomeActionProcessor(
         sendEffect: (WelcomeContract.Effect) -> Unit
     ): Flow<Mutation<WelcomeContract.State>> {
         return flowOf { currentState ->
-            sendEffect(WelcomeContract.Effect.NavigateToLogin)
+            sendEffect(WelcomeContract.Effect.NavigateToOtp("123123"))
             currentState
         }
     }

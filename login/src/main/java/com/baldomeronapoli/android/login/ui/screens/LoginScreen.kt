@@ -19,14 +19,18 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun LoginRoute(
     viewModel: WelcomeViewModel = koinViewModel(),
-    onNavigateToLogin: () -> Unit
+    onNavigateToOtp: (phone: String) -> Unit  // ✅ Cambiado: ahora recibe el teléfono
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     // Manejo de efectos/side effects (navegación, snackbars, etc)
     viewModel.effect.CollectAsEffectWithLifecycle { effect ->
         when (effect) {
-            WelcomeContract.Effect.NavigateToLogin -> onNavigateToLogin()
+            is WelcomeContract.Effect.NavigateToOtp -> {
+                // ✅ Pasa el teléfono a la navegación
+                onNavigateToOtp(effect.phone)
+            }
+            // Otros efectos si los tienes...
         }
     }
 

@@ -7,16 +7,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.baldomeronapoli.android.base.feature.LazyFeatureLoader
-import com.baldomeronapoli.android.base.feature.NavigationAwareFeature
+import com.baldomeronapoli.android.base.feature.NavigationFeature
+import com.baldomeronapoli.android.base.navigation.NavigationCoordinator
 import com.baldomeronapoli.android.login.di.loginModule
 import com.baldomeronapoli.android.login.ui.screens.LoginRoute
+import com.baldomeronapoli.android.navigation.contracts.login.LoginContract
+import com.baldomeronapoli.android.navigation.contracts.login.LoginDestinations
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 import org.koin.core.module.Module
+import timber.log.Timber
 
 /**
  * Feature de Login.
  * Maneja toda la lógica de autenticación de la app.
  */
-class LoginFeature : NavigationAwareFeature {
+class LoginFeature : NavigationFeature, KoinComponent {
 
     override val featureName: String = "login"
 
@@ -27,6 +33,10 @@ class LoginFeature : NavigationAwareFeature {
      */
     override val priority: Int = 100 // Lazy loading - se carga al navegar
 
+    // ✅ NavigationCoordinator - inyectado via Koin
+    override var navigationCoordinator: NavigationCoordinator? = null
+        get() = field ?: inject<NavigationCoordinator>().value.also { field = it }
+
     // NavController - se inicializa en onNavigationReady
     private var navController: NavHostController? = null
 
@@ -36,14 +46,17 @@ class LoginFeature : NavigationAwareFeature {
     // Navegación con lazy loading
     override fun NavGraphBuilder.registerNavigation() {
         navigation(
-            startDestination = "login_form",
-            route = "login_flow"
+            startDestination = LoginDestinations.LoginForm.route,
+            route = LoginDestinations.LoginFlow.route
         ) {
-            composable("login_form") {
+            composable(LoginDestinations.LoginForm.route) {
                 LazyFeatureLoader(featureName = featureName) {
                     LoginRoute(
-                        onNavigateToLogin = {
-                            navController?.navigate("login_otp")
+                        onNavigateToOtp = { phone ->
+                            Timber.e("entre a esto $phone")
+                            navigationCoordinator?.navigate(
+                                LoginContract.NavigateToOtp(phone = phone)
+                            )
                         }
                     )
                 }
@@ -51,14 +64,19 @@ class LoginFeature : NavigationAwareFeature {
 
             // Las demás rutas NO usan LazyFeatureLoader
             // Los módulos ya están cargados desde login_form
-            composable("login_otp") {
+            composable(LoginDestinations.LoginOtp.route) { backStackEntry ->
+                val phone = LoginDestinations.LoginOtp.getPhone(backStackEntry)
+
                 // TODO: Reemplazar con tu LoginOtpScreen real
-                Text("Login OTP")
+                Text("Login OTP - Phone: $phone")
             }
 
-            composable("login_success") {
+            composable(LoginDestinations.LoginSuccess.routeWithQuery) { backStackEntry ->
+                val userName = LoginDestinations.LoginSuccess.getUserName(backStackEntry)
+                val isFirstTime = LoginDestinations.LoginSuccess.isFirstTime(backStackEntry)
+
                 // TODO: Reemplazar con tu LoginSuccessScreen real
-                Text("Login Success")
+                Text("Login Success - User: $userName, First: $isFirstTime")
             }
         }
     }
@@ -79,6 +97,8 @@ class LoginFeature : NavigationAwareFeature {
 
     // Limpieza
     override fun dispose() {
+        navigationCoordinator = null
+        navController = null
         // LoginAnalytics.shutdown()
     }
 }

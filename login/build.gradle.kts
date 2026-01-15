@@ -50,13 +50,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
     }
 
@@ -64,11 +64,9 @@ android {
     publishing {
         singleVariant("development") {
             withSourcesJar()
-            withJavadocJar()
         }
         singleVariant("production") {
             withSourcesJar()
-            withJavadocJar()
         }
     }
 }
@@ -104,8 +102,8 @@ dependencies {
     implementation(libs.bundles.koin)
     implementation(libs.timber)
 
-    "developmentImplementation"(libs.napoli.android.base.development)
-    "productionImplementation"(libs.napoli.android.base.production)
+    "developmentImplementation"(libs.bundles.napoli.development)
+    "productionImplementation"(libs.bundles.napoli.production)
 }
 
 afterEvaluate {

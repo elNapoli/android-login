@@ -9,6 +9,8 @@ appcompat = "1.7.1"
 material = "1.13.0"
 napoli-base-development = "1.0.0-development"
 napoli-base-production = "1.0.0-production"
+napoli-navigation-development = "1.0.0-development"
+napoli-navigation-production = "1.0.0-production"
 navigationRuntimeKtx = "2.9.6"
 composeBom = "2024.12.01"
 navigationCompose = "2.9.6"
@@ -25,6 +27,11 @@ material = { group = "com.google.android.material", name = "material", version.r
 
 napoli-android-base-development = { module = "com.baldomeronap.android:base", version.ref = "napoli-base-development" }
 napoli-android-base-production = { module = "com.baldomeronap.android:base", version.ref = "napoli-base-production" }
+napoli-android-navigation-development = { module = "com.baldomeronap.android:navigation", version.ref = "napoli-navigation-development" }
+napoli-android-navigation-production = { module = "com.baldomeronap.android:navigation", version.ref = "napoli-navigation-production" }
+
+
+
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 
 # Koin
@@ -51,6 +58,6 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 
 [bundles]
 koin = ["koin-android", "koin-androidx-compose"]
-napoli-development = ["napoli-android-base-development"]
-napoli-production = ["napoli-android-base-production"]
+napoli-development = ["napoli-android-base-development", "napoli-android-navigation-development"]
+napoli-production = ["napoli-android-base-production", "napoli-android-navigation-production"]
 
