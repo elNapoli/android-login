@@ -3,7 +3,7 @@ package com.baldomeronapoli.android.login.presentation.welcome.actions
 import com.baldomeronapoli.android.base.presentation.Mutation
 import com.baldomeronapoli.android.base.presentation.action.ActionProcessor
 import com.baldomeronapoli.android.login.domain.usecases.StartUpCaseUse
-import com.baldomeronapoli.android.login.presentation.welcome.contracts.WelcomeContract
+import com.baldomeronapoli.android.login.presentation.welcome.contract.WelcomeContract
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

@@ -1,9 +1,9 @@
-package com.baldomeronapoli.android.login.presentation.welcome.viewmodels
+package com.baldomeronapoli.android.login.presentation.welcome.viewmodel
 
 import com.baldomeronapoli.android.base.presentation.Mutation
 import com.baldomeronapoli.android.base.presentation.viewmodel.BaseViewModel
 import com.baldomeronapoli.android.login.presentation.welcome.actions.LoadWelcomeActionProcessor
-import com.baldomeronapoli.android.login.presentation.welcome.contracts.WelcomeContract
+import com.baldomeronapoli.android.login.presentation.welcome.contract.WelcomeContract
 import com.baldomeronapoli.android.login.presentation.welcome.interceptors.WelcomeActionInterceptor
 import com.baldomeronapoli.android.login.presentation.welcome.interceptors.WelcomeStateInterceptor
 import kotlinx.coroutines.flow.Flow

@@ -1,7 +1,7 @@
 package com.baldomeronapoli.android.login.presentation.welcome.interceptors
 
 import com.baldomeronapoli.android.base.presentation.state.StateInterceptor
-import com.baldomeronapoli.android.login.presentation.welcome.contracts.WelcomeContract
+import com.baldomeronapoli.android.login.presentation.welcome.contract.WelcomeContract
 import timber.log.Timber
 
 class WelcomeStateInterceptor : StateInterceptor<WelcomeContract.State> {

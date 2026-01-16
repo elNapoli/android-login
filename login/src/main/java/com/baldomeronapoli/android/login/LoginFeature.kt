@@ -5,12 +5,14 @@ import androidx.compose.material3.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
 import androidx.navigation.navigation
 import com.baldomeronapoli.android.base.feature.LazyFeatureLoader
 import com.baldomeronapoli.android.base.feature.NavigationFeature
 import com.baldomeronapoli.android.base.navigation.NavigationCoordinator
 import com.baldomeronapoli.android.login.di.loginModule
-import com.baldomeronapoli.android.login.ui.screens.LoginRoute
+import com.baldomeronapoli.android.login.presentation.second.route.SecondRoute
+import com.baldomeronapoli.android.login.presentation.welcome.route.WelcomeRoute
 import com.baldomeronapoli.android.navigation.contracts.login.LoginContract
 import com.baldomeronapoli.android.navigation.contracts.login.LoginDestinations
 import org.koin.core.component.KoinComponent
@@ -51,7 +53,7 @@ class LoginFeature : NavigationFeature, KoinComponent {
         ) {
             composable(LoginDestinations.LoginForm.route) {
                 LazyFeatureLoader(featureName = featureName) {
-                    LoginRoute(
+                    WelcomeRoute(
                         onNavigateToOtp = { phone ->
                             Timber.e("entre a esto $phone")
                             navigationCoordinator?.navigate(
@@ -62,13 +64,11 @@ class LoginFeature : NavigationFeature, KoinComponent {
                 }
             }
 
-            // Las demás rutas NO usan LazyFeatureLoader
-            // Los módulos ya están cargados desde login_form
-            composable(LoginDestinations.LoginOtp.route) { backStackEntry ->
-                val phone = LoginDestinations.LoginOtp.getPhone(backStackEntry)
 
-                // TODO: Reemplazar con tu LoginOtpScreen real
-                Text("Login OTP - Phone: $phone")
+            dialog(LoginDestinations.LoginOtp.route) { backStackEntry ->
+                val phone = LoginDestinations.LoginOtp.getPhone(backStackEntry)
+                SecondRoute(phone = phone)
+
             }
 
             composable(LoginDestinations.LoginSuccess.routeWithQuery) { backStackEntry ->

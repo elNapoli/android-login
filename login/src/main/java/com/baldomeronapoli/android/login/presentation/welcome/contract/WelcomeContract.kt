@@ -1,11 +1,17 @@
-package com.baldomeronapoli.android.login.presentation.welcome.contracts
+package com.baldomeronapoli.android.login.presentation.welcome.contract
 
 import com.baldomeronapoli.android.base.presentation.ViewAction
 import com.baldomeronapoli.android.base.presentation.ViewEffect
 import com.baldomeronapoli.android.base.presentation.ViewState
 
 object WelcomeContract {
-    sealed class State : ViewState() {
+    sealed class State(
+        override val topBarTitle: String = "",
+        override val isTopBarShown: Boolean = false,
+    ) : ViewState(
+        topBarTitle = topBarTitle,
+        isTopBarShown = isTopBarShown,
+    ) {
         data object Idle : State()
     }
 
